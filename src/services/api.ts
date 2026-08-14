@@ -1,40 +1,61 @@
-import type { Produto } from "../types/Produto";
+import type { Todo } from "../types/Todo";
 
-const API_URL = "https://crudcrud.com/api/96a4d9ab9b714ff69ec1c9e46f64c503";
+const API_URL = "https://crudcrud.com/api/7ad6d09b30da4a84a45678ccb00e54d7";
 
-export const buscarProdutos = async (): Promise<Produto[]> => {
-    const resposta = await fetch(`${API_URL}/produtos`);
+export const buscarTarefas = async (): Promise<Todo[]> => {
+    const resposta = await fetch(`${API_URL}/tarefas`);
 
     if (!resposta.ok) {
-        throw new Error("Erro ao carregar produtos");
+        throw new Error("Erro ao carregar tarefas");
     }
 
     return await resposta.json();
 };
 
-export const criarProduto = async (produto: Produto): Promise<Produto> => {
-    const resposta = await fetch(`${API_URL}/produtos`, {
+export const criarTarefa = async (tarefa: Todo): Promise<Todo> => {
+    const resposta = await fetch(`${API_URL}/tarefas`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(produto)
+        body: JSON.stringify(tarefa)
     });
 
     if (!resposta.ok) {
-        throw new Error("Erro ao cadastrar produto");
+        throw new Error("Erro ao cadastrar tarefa");
     }
 
     return await resposta.json();
 };
 
-export const removerProduto = async (id: string): Promise<void> => {
-    const resposta = await fetch(`${API_URL}/produtos/${id}`, {
+export const atualizarTarefa = async (id: string, tarefa: Todo): Promise<Todo> => {
+    const { _id, ...tarefaSemId } = tarefa;
+
+    const resposta = await fetch(`${API_URL}/tarefas/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(tarefaSemId)
+    });
+
+    console.log("Status PUT:", resposta.status);
+    console.log("Resposta PUT:", await resposta.text());
+
+    if (!resposta.ok) {
+        throw new Error("Erro ao atualizar tarefa");
+    }
+
+    return tarefa;
+};
+
+export const removerTarefa = async (id: string): Promise<void> => {
+    const resposta = await fetch(`${API_URL}/tarefas/${id}`, {
         method: "DELETE"
     });
 
     if (!resposta.ok) {
-        throw new Error("Erro ao excluir produto");
+        throw new Error("Erro ao excluir tarefa");
     }
 };
 
