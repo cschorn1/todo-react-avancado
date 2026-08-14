@@ -13,7 +13,7 @@ function TodoItem({ tarefa, excluirTarefa, concluirTarefa }: TodoItemProps) {
     return (
         <article className="flex gap-4 rounded-xl bg-white/70 p-4 shadow-md backdrop-blur-sm transition duration-300 hover:shadow-lg">
             {/* Imagem */}
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
                 <img 
                     className="h-24 w-24 rounded-lg object-cover" 
                     src={tarefa.imagem} 
